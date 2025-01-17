@@ -11,6 +11,7 @@ Table of Contents
 • License
 
 Installation
+
 Prerequisites
 Before you start, make sure you have the following installed:
 
@@ -70,6 +71,7 @@ Dashboard
 Download Reports
 1. Once the data is filtered, the backend generates a report using the Python script (export_script.py).
 2. The report is generated in JSON format and can be downloaded.
+
 Endpoints
   • POST /api/report/export: This endpoint accepts fromDate and toDate parameters, triggers the Python script to generate the report, and returns the JSON data.
 
