@@ -1,4 +1,5 @@
 Affiliate Dashboard Project
+
 This project is a dashboard for managing affiliate data, where you can filter reports by date and download them in JSON format. The frontend is built with React, and the backend is powered by Node.js with a Python script to generate reports.
 
 Table of Contents
