@@ -50,7 +50,7 @@ Backend Setup
 
 3. Run the backend server:
 bash
-npm start
+npm start/ node app.js
 The server will start on http://localhost:5000.
 
 Frontend Setup
