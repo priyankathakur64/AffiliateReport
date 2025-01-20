@@ -1,20 +1,26 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const reportRoutes = require("./routes/reportRoutes"); // Import the report route
+
 const app = express();
+const port = 5000;
 
-// Enable CORS
 app.use(cors());
-
-// Parse incoming requests
 app.use(bodyParser.json());
 
-// Import routes (if you are separating routes into a different file)
-const reportRoutes = require("./routes/reportRoutes");
+// Use the report routes for handling `/api/report/*` requests
 app.use("/api/report", reportRoutes);
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
+}
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

@@ -1,32 +1,32 @@
-const axios = require("axios"); // Make sure to import axios for making API requests
+const express = require("express");
+const axios = require("axios"); // If you're fetching live data from an external API
+const { parse } = require("json2csv"); // For CSV export
+const js2xmlparser = require("js2xmlparser"); // For XML export
+const router = express.Router();
 
-// Function to fetch live report data from the 7Bit affiliate API
+// Function to fetch the live report data from the affiliate API (or database)
 const getLiveReportData = async (fromDate, toDate) => {
   try {
-    // Replace with the actual API URL from the 7Bit affiliate program
     const response = await axios.get(
       "https://affiliate.7bitcasino.com/api/v1/reports",
       {
         headers: {
-          Authorization: `Bearer ${process.env.e986e52bbae2c89ca55522458e80df3e}`, // Replace with your API key or access token
+          Authorization: `Bearer ${process.env.e986e52bbae2c89ca55522458e80df3e}`,
         },
-        params: {
-          fromDate,
-          toDate,
-        },
+        params: { fromDate, toDate },
       }
     );
-
-    // Ensure that you return the data in the correct format
-    return response.data; // Assuming the API returns a JSON response
+    if (!response.data || !response.data.length) {
+      throw new Error("No data found for the given dates.");
+    }
+    return response.data;
   } catch (error) {
     console.error("Error fetching live report data:", error);
     throw new Error("Failed to fetch live data.");
   }
 };
-
-// Handle file export with filter dates (fromDate, toDate)
-exports.exportReport = async (req, res) => {
+// POST endpoint to fetch filtered report data
+router.post("/export", async (req, res) => {
   const { fromDate, toDate, fileType } = req.body;
 
   if (!fromDate || !toDate || !fileType) {
@@ -47,7 +47,6 @@ exports.exportReport = async (req, res) => {
       fileContent = JSON.stringify(reportData);
       fileExtension = "json";
     } else if (fileType === "csv") {
-      const { parse } = require("json2csv");
       try {
         fileContent = parse(reportData); // Convert report data to CSV
         fileExtension = "csv";
@@ -55,7 +54,6 @@ exports.exportReport = async (req, res) => {
         return res.status(500).json({ error: "Error generating CSV file." });
       }
     } else if (fileType === "xml") {
-      const js2xmlparser = require("js2xmlparser");
       try {
         fileContent = js2xmlparser.parse("report", reportData); // Convert to XML
         fileExtension = "xml";
@@ -78,4 +76,6 @@ exports.exportReport = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch live data" });
   }
-};
+});
+
+module.exports = router;

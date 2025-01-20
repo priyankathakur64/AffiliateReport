@@ -1,0 +1,159 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #121212;
+  color: #fff;
+  line-height: 1.6;
+  padding: 2rem 0;
+}
+
+/* Container */
+.report-container {
+  max-width: 1200px; /* Increased width */
+  margin: 2rem auto;
+  padding: 3rem; /* Add padding to maintain proportion */
+  background-color: #1c1c1c;
+  border-radius: 15px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1s ease-in-out;
+  overflow-x: auto;
+}
+
+/* Title */
+.title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #f39c12;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ecf0f1;
+  margin-bottom: 0.5rem;
+}
+
+.input-field {
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #3498db;
+  border-radius: 8px;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #8e44ad;
+  box-shadow: 0 0 8px rgba(142, 68, 173, 0.6);
+}
+
+.submit-button {
+  padding: 0.8rem 1.2rem; /* Reduced padding */
+  font-size: 1rem;
+  width: auto; /* Use 'auto' width to fit content */
+  max-width: 200px;
+  color: white;
+  background: linear-gradient(135deg, #6a82fb, #fc5c7d);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.submit-button:hover {
+  background: linear-gradient(135deg, #fc5c7d, #6a82fb);
+  transform: scale(1.05);
+}
+
+.submit-button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.loading-text {
+  font-size: 1.1rem;
+  color: #f39c12;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.error-text {
+  font-size: 1.1rem;
+  color: #e74c3c;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Report Table */
+.report-data {
+  margin-top: 2rem;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse; /* Ensures single borders instead of double lines */
+  border: 2px solid #3498db; /* Border around the entire table */
+  margin-top: 1rem;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #2c3e50; /* Borders around individual cells */
+  padding: 1rem;
+  text-align: center;
+}
+
+.report-table th {
+  background: linear-gradient(135deg, #6a82fb, #fc5c7d);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.report-table td {
+  background: #1c1c1c;
+  color: #ecf0f1;
+}
+
+.report-table tr:nth-child(even) td {
+  background: #2c3e50; /* Alternating row background */
+}
+
+.report-table tr:hover td {
+  background: #3b3b3b;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Keyframes for Fade-in animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

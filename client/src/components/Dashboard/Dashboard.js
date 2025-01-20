@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import "./Dashboard.css"; // Import the CSS file for styling
 
 function Dashboard() {
   const [fromDate, setFromDate] = useState("");
@@ -14,14 +15,14 @@ function Dashboard() {
         toDate,
       });
       console.log("Report Data:", response.data);
-      setReportData(response.data); // Store the fetched report data
+      setReportData(response.data || []); // Ensure it's an empty array if no data
     } catch (error) {
       console.error("Error fetching report:", error);
     }
   };
 
   const handleDownload = () => {
-    if (!reportData) {
+    if (!reportData || reportData.length === 0) {
       console.log("No report data available");
       return;
     }
@@ -40,41 +41,69 @@ function Dashboard() {
     document.body.removeChild(link); // Clean up the link element
   };
 
+  const renderTable = (data) => {
+    if (!data || data.length === 0) {
+      return <p>No data available to display.</p>;
+    }
+
+    // Get the headers dynamically from the first row
+    const headers = Object.keys(data[0]);
+
+    return (
+      <table className="report-table">
+        <thead>
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index}>
+              {headers.map((header) => (
+                <td key={header}>{row[header]}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial" }}>
+    <div className="dashboard">
       <h1>Dashboard</h1>
-      <div style={{ marginBottom: "20px" }}>
+      <div className="filters">
         <label>
           From Date:
           <input
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            style={{ marginLeft: "10px" }}
+            className="date-input"
           />
         </label>
-      </div>
-      <div style={{ marginBottom: "20px" }}>
         <label>
           To Date:
           <input
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            style={{ marginLeft: "10px" }}
+            className="date-input"
           />
         </label>
+        <button onClick={handleFilter} className="apply-filter-btn">
+          Apply Filter
+        </button>
       </div>
-      <button onClick={handleFilter} style={{ padding: "10px 20px" }}>
-        Apply Filter
-      </button>
+
+      {/* Show the report preview */}
+      {reportData && renderTable(reportData)}
 
       {/* Show the Download button after fetching the data */}
-      {reportData && (
-        <button
-          onClick={handleDownload}
-          style={{ padding: "10px 20px", marginTop: "20px" }}
-        >
+      {reportData && reportData.length > 0 && (
+        <button onClick={handleDownload} className="download-btn">
           Download Report
         </button>
       )}

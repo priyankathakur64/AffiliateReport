@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-// Handle file export with filter dates (Example)
-router.post("/export", (req, res) => {
-  const { fromDate, toDate } = req.body;
+// Example Express route to handle the report request
+router.post("/report", (req, res) => {
+  // Extract fromDate, toDate, and other necessary fields from the request body
+  const { fromDate, toDate, columns, groupBy } = req.body;
 
   // Simulate fetching the filtered report data based on the dates (from DB or file)
   const reportData = {
@@ -21,4 +22,5 @@ router.post("/export", (req, res) => {
   res.send(JSON.stringify(reportData)); // Send the JSON as a downloadable file
 });
 
+// Export the router to be used in app.js
 module.exports = router;

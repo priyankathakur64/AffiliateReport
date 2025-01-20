@@ -1,12 +1,14 @@
-import React from "react";
-import Dashboard from "./components/Dashboard/Dashboard";
+// src/App.js
 
-function App() {
+import React from "react";
+import ReportComponent from "./components/ReportComponent";
+
+const App = () => {
   return (
     <div>
-      <Dashboard />
+      <ReportComponent />
     </div>
   );
-}
+};
 
 export default App;
