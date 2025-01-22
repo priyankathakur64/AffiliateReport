@@ -4,14 +4,27 @@ import axios from "axios";
 import "./ReportComponent.css";
 
 const ReportComponent = () => {
+  const [casino, setCasino] = useState(""); // State for selected casino
   const [reportData, setReportData] = useState([]);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const casinos = [
+    "7Bit casino",
+    "Bitstarz",
+    "mBit casino",
+    "CryptoWild",
+    "Betchain",
+  ];
 
   // Function to fetch data on form submit
   const handleFetchReportData = async () => {
+    if (!casino) {
+      setError("Please select a casino.");
+      return;
+    }
+
     if (!fromDate || !toDate) {
       setError("Please provide both from and to dates.");
       return;
@@ -21,7 +34,7 @@ const ReportComponent = () => {
     setError("");
 
     try {
-      const data = await fetchReportData(fromDate, toDate);
+      const data = await fetchReportData(fromDate, toDate, casino);
       setReportData(data); // Set the filtered report data to state
     } catch (err) {
       setError("Failed to fetch data.");
@@ -62,24 +75,47 @@ const ReportComponent = () => {
   return (
     <div className="box-container">
       <h1>Report Data</h1>
+
       <div className="form-group">
-        <label>
-          From Date:
-          <input
-            type="date"
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-          />
-        </label>
-        <label>
-          To Date:
-          <input
-            type="date"
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-          />
-        </label>
-        <button onClick={handleFetchReportData}>Fetch Report</button>
+        {/* Casino Selection */}
+        <div className="form-row">
+          <label>
+            Top 5 Bitcoin Casinos:{" "}
+            <select value={casino} onChange={(e) => setCasino(e.target.value)}>
+              <option value="">-- Select a Casino --</option>
+              {casinos.map((casinoName) => (
+                <option key={casinoName} value={casinoName}>
+                  {casinoName}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        {/* Date Range */}
+        <div className="form-row">
+          <label>
+            From Date:
+            <input
+              type="date"
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+            />
+          </label>
+          <label>
+            To Date:
+            <input
+              type="date"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+            />
+          </label>
+        </div>
+
+        {/* Fetch Button */}
+        <div className="form-row">
+          <button onClick={handleFetchReportData}>Fetch Report</button>
+        </div>
       </div>
 
       {loading && <p>Loading...</p>}
@@ -105,8 +141,6 @@ const ReportComponent = () => {
               ))}
             </tbody>
           </table>
-
-          {/* Download Button */}
           <button onClick={downloadCSV}>Download CSV</button>
         </div>
       )}

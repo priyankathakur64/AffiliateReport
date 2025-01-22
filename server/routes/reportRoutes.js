@@ -108,10 +108,10 @@ const availableGroupBy = [
 const getLiveReportData = async (fromDate, toDate) => {
   try {
     const response = await axios.get(
-      "https://affiliate.7bitcasino.com/api/v1/reports",
+      "https://starzpartners.com/api/v1/reports",
       {
         headers: {
-          Authorization: `Bearer ${process.env.e986e52bbae2c89ca55522458e80df3e}`,
+          Authorization: `Bearer ${process.env.e60e2bc9e7bebb59000bcb7eda67faab}`,
         },
         params: { fromDate, toDate },
       }

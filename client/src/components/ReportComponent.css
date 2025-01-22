@@ -1,12 +1,12 @@
 /* Container for the form with some padding and spacing */
 .box-container {
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 3px solid #ddd;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%;  /* Set width to 80% of the screen */
+  width: 60%;  /* Set width to 80% of the screen */
   max-width: 1000px;  /* Maximum width to prevent it from becoming too wide on large screens */
   margin-left: auto;  /* Center the container */
   margin-right: auto; /* Center the container */
@@ -15,25 +15,30 @@
 
 /* Form group to align form elements properly */
 .form-group {
-  margin-bottom: 20px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 15px; /* Ensures space between date inputs and button */
-  align-items: center;
+  flex-direction: column; /* Stack items vertically */
+  gap: 15px; /* Space between rows */
 }
 
-/* Date input fields with larger size and visibility */
+/* Style for the form-row (each form element) */
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 80px;
+}
+
+/* Adjust the space between From and To Date inputs */
 input[type="date"] {
   padding: 10px 16px;  /* Increased padding for more space inside */
   font-size: 18px; /* Increased font size for better readability */
-  margin: 10px 0;
+  margin: 0 10px 0 0; /* Reduced margin to eliminate large gap */
   border: 2px solid #4CAF50; /* Green border for a clear, visible border */
   border-radius: 5px;
   background-color: #f0f0f0; /* Light gray background for contrast */
-  width: 280px; /* Increased width for better visibility */
+  width: 180px; /* Keep the width the same */
   box-sizing: border-box; /* Ensures padding and border are included in width */
-  display: inline-block;
 }
 
 /* Label style to make it more prominent */
@@ -88,34 +93,6 @@ td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #4CAF50;
-  color: white;
-  text-transform: uppercase;
-}
-
-tr:hover {
-  background-color: #f2f2f2;
-}
-
-/* Style for the table container */
-table-container {
-  overflow-x: auto;
-  margin-top: 20px;
-  max-height: 500px;
-}
-
-
-/* General table layout and responsiveness */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -125,7 +102,16 @@ th, td {
 
 th {
   background-color: #4CAF50;
+  color: white;
+  text-transform: uppercase;
   text-align: center;
+}
+
+/* Style for the table container */
+table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  max-height: 500px;
 }
 
 td {
