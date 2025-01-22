@@ -1,110 +1,113 @@
 import React, { useState } from "react";
 import { fetchReportData } from "../utils/api";
-import "./ReportComponent.css"; // Import external CSS file
+import axios from "axios";
+import "./ReportComponent.css";
 
 const ReportComponent = () => {
+  const [reportData, setReportData] = useState([]);
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [columns, setColumns] = useState("");
-  const [groupBy, setGroupBy] = useState("");
-  const [reportData, setReportData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // Function to fetch data on form submit
+  const handleFetchReportData = async () => {
+    if (!fromDate || !toDate) {
+      setError("Please provide both from and to dates.");
+      return;
+    }
+
     setLoading(true);
+    setError("");
+
     try {
-      const groupByArray = groupBy.split(",").map((item) => item.trim()); // Split groupBy into an array
-      const columnsArray = columns.split(",").map((item) => item.trim()); // Split columns into an array
-      const data = await fetchReportData(
-        fromDate,
-        toDate,
-        columnsArray,
-        groupByArray
-      );
-      setReportData(data);
+      const data = await fetchReportData(fromDate, toDate);
+      setReportData(data); // Set the filtered report data to state
     } catch (err) {
-      setError("Failed to fetch data");
+      setError("Failed to fetch data.");
     } finally {
       setLoading(false);
     }
   };
 
-  return (
-    <div className="report-container">
-      <h1 className="title">Generate Your Custom Report</h1>
+  // Function to convert the report data to CSV format and trigger download
+  const downloadCSV = () => {
+    const headers = Object.keys(reportData[0]);
+    const rows = reportData.map((item) =>
+      headers.map((header) => item[header]).join(",")
+    );
 
-      {/* Form for user input */}
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <label>From Date:</label>
+    // Combine headers and rows
+    const csvContent = [headers.join(","), ...rows].join("\n");
+
+    // Create a Blob from CSV content
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+
+    // Create a download link
+    if (navigator.msSaveBlob) {
+      // For IE
+      navigator.msSaveBlob(blob, "report.csv");
+    } else {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", "report.csv");
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  return (
+    <div className="box-container">
+      <h1>Report Data</h1>
+      <div className="form-group">
+        <label>
+          From Date:
           <input
             type="date"
             value={fromDate}
             onChange={(e) => setFromDate(e.target.value)}
-            className="input-field"
           />
-        </div>
-        <div className="form-group">
-          <label>To Date:</label>
+        </label>
+        <label>
+          To Date:
           <input
             type="date"
             value={toDate}
             onChange={(e) => setToDate(e.target.value)}
-            className="input-field"
           />
-        </div>
-        <div className="form-group">
-          <label>Columns (comma separated):</label>
-          <input
-            type="text"
-            value={columns}
-            onChange={(e) => setColumns(e.target.value)}
-            className="input-field"
-          />
-        </div>
-        <div className="form-group">
-          <label>Group By (comma separated):</label>
-          <input
-            type="text"
-            value={groupBy}
-            onChange={(e) => setGroupBy(e.target.value)}
-            className="input-field"
-          />
-        </div>
-        <button type="submit" disabled={loading} className="submit-button">
-          {loading ? "Generating..." : "Generate Report"}
-        </button>
-      </form>
+        </label>
+        <button onClick={handleFetchReportData}>Fetch Report</button>
+      </div>
 
-      {/* Display loading, error, or data */}
-      {loading && (
-        <p className="loading-text">Please wait, generating report...</p>
-      )}
-      {error && <p className="error-text">{error}</p>}
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {reportData && Array.isArray(reportData.data) && (
+      {reportData.length > 0 && (
         <div>
-          <h2>Report Data</h2>
-          <table class="report-table">
+          <table>
             <thead>
               <tr>
-                {columns.split(",").map((column, index) => (
-                  <th key={index}>{column.trim()}</th>
+                {Object.keys(reportData[0]).map((key) => (
+                  <th key={key}>{key}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {reportData.data.map((item, index) => (
+              {reportData.map((item, index) => (
                 <tr key={index}>
-                  {columns.split(",").map((column, colIndex) => (
-                    <td key={colIndex}>{item[column.trim()]}</td>
+                  {Object.values(item).map((value, idx) => (
+                    <td key={idx}>{value}</td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
+
+          {/* Download Button */}
+          <button onClick={downloadCSV}>Download CSV</button>
         </div>
       )}
     </div>
