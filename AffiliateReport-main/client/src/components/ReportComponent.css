@@ -1,0 +1,129 @@
+/* Container for the form with some padding and spacing */
+.box-container {
+  background-color: #f9f9f9;
+  border: 3px solid #ddd;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 60%;  /* Set width to 80% of the screen */
+  max-width: 1000px;  /* Maximum width to prevent it from becoming too wide on large screens */
+  margin-left: auto;  /* Center the container */
+  margin-right: auto; /* Center the container */
+  margin-top: 50px; /* Increased top margin for more space */
+}
+
+/* Form group to align form elements properly */
+.form-group {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 15px; /* Space between rows */
+}
+
+/* Style for the form-row (each form element) */
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 80px;
+}
+
+/* Adjust the space between From and To Date inputs */
+input[type="date"] {
+  padding: 10px 16px;  /* Increased padding for more space inside */
+  font-size: 18px; /* Increased font size for better readability */
+  margin: 0 10px 0 0; /* Reduced margin to eliminate large gap */
+  border: 2px solid #4CAF50; /* Green border for a clear, visible border */
+  border-radius: 5px;
+  background-color: #f0f0f0; /* Light gray background for contrast */
+  width: 180px; /* Keep the width the same */
+  box-sizing: border-box; /* Ensures padding and border are included in width */
+}
+
+/* Label style to make it more prominent */
+label {
+  font-size: 16px;
+  font-weight: bold; /* Bold labels for emphasis */
+  color: #333;
+  margin-right: 15px; /* Margin between label and input */
+  display: inline-block;
+  width: 120px; /* Consistent width for labels */
+}
+
+/* Style for the "Fetch Report" button */
+button {
+  padding: 12px 20px;  /* Larger padding for better user interaction */
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-right: 40px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Style for error message */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.loading-message {
+  font-size: 16px;
+  color: green;
+  margin-top: 10px;
+}
+
+/* Styling for the report table */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  word-wrap: break-word; /* Ensures long text is wrapped inside the cell */
+  width: 15%; /* Adjust width as per your requirement */
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Style for the table container */
+table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+  max-height: 500px;
+}
+
+td {
+  text-align: center;
+}
+
+tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+table td {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
